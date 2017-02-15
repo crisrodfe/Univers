@@ -15,6 +15,7 @@ public class AddStudentServiceImpl implements AddStudentService{
 	
 	public void saveStudent(Student studentDAO) {
 		Student student = new Student();
+		student.setUniversity(studentDAO.getUniversity());
 		student.setFirstName(studentDAO.getFirstName());
 		student.setLastName(studentDAO.getLastName());
 		student.setGender(studentDAO.getGender());

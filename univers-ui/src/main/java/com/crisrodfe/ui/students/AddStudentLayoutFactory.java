@@ -1,9 +1,12 @@
 package com.crisrodfe.ui.students;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crisrodfe.module.entity.Student;
 import com.crisrodfe.services.student.AddStudentService;
+import com.crisrodfe.services.university.ShowAllUniversitiesService;
 import com.crisrodfe.utils.Gender;
 import com.crisrodfe.utils.NotificationMessages;
 import com.crisrodfe.utils.StudentsString;
@@ -39,7 +42,7 @@ public class AddStudentLayoutFactory {
 		private TextField lastName;
 		private TextField age;
 		private ComboBox gender;
-
+		private ComboBox university;
 		private Button saveButton;
 		private Button clearButton;
 
@@ -75,6 +78,9 @@ public class AddStudentLayoutFactory {
 			gender.addItem(Gender.MALE.getString());
 			gender.addItem(Gender.FEMALE.getString());
 
+			university = new ComboBox(StudentsString.UNIVERSITY.getString());
+			university.setWidth("100%");
+			
 			saveButton = new Button(StudentsString.SAVE_BUTTON.getString());
 			saveButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 			saveButton.addClickListener(this);
@@ -104,7 +110,7 @@ public class AddStudentLayoutFactory {
 
 			setMargin(true);
 
-			GridLayout gridLayout = new GridLayout(2, 3);
+			GridLayout gridLayout = new GridLayout(2, 4);
 			gridLayout.setSizeUndefined();
 			gridLayout.setSpacing(true);
 
@@ -114,7 +120,9 @@ public class AddStudentLayoutFactory {
 			gridLayout.addComponent(age, 0, 1);
 			gridLayout.addComponent(gender, 1, 1);
 
-			gridLayout.addComponent(new HorizontalLayout(saveButton, clearButton), 0, 2);
+			gridLayout.addComponent(university,0,2,1,2);	
+			
+			gridLayout.addComponent(new HorizontalLayout(saveButton, clearButton), 0, 3);
 
 			return gridLayout;
 		}
@@ -133,10 +141,17 @@ public class AddStudentLayoutFactory {
 			lastName.setValue(null);
 			gender.setValue(null);
 			age.setValue(null);
+			university.setValue(null);
 			
 		}
 
 		private void save() {
+			
+			if(!isSavedOperationValid()) {
+				Notification.show("Error","There is no Universities on the database",Type.ERROR_MESSAGE);
+				return;
+			}
+			
 			try {
 				//Coge el valor de los componentes de la UI y los mapea al objeto Student..
 				fieldGroup.commit();
@@ -152,14 +167,24 @@ public class AddStudentLayoutFactory {
 			clearFields();
 		}
 
-
-
+		private boolean isSavedOperationValid() {
+			
+			return showAllUniversities.getAllUniversities().size() != 0;
+		}
+		
+		public AddStudentMainLayout load() {
+			university.addItems(showAllUniversities.getAllUniversities());			
+			return this;
+		}
 	}
 
+	@Autowired
+	private ShowAllUniversitiesService showAllUniversities;
+	
 	@Autowired
 	private AddStudentService addStudentService;
 	
 	public Component createComponent(StudentSavedListener studentSavedListener) {
-		return new AddStudentMainLayout(studentSavedListener).init().bind().layout();
+		return new AddStudentMainLayout(studentSavedListener).init().load().bind().layout();
 	}
 }

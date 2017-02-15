@@ -13,7 +13,7 @@ public class University {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name="university_id")
 	private Integer id;
 	
 	@Column(name="university_name")
@@ -54,8 +54,6 @@ public class University {
 		this.universityCity = universityCity;
 	}
 	
-	
-
 	public Integer getId() {
 		return id;
 	}
@@ -69,5 +67,10 @@ public class University {
 		this.universityName = universityName;
 		this.universityCountry = universityCountry;
 		this.universityCity = universityCity;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getUniversityName();
 	}
 }

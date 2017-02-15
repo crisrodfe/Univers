@@ -3,6 +3,7 @@ package com.crisrodfe.ui.university;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crisrodfe.ui.commons.UniversMainUI;
+import com.crisrodfe.ui.statistics.StatisticsLayoutFactory;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
@@ -24,6 +25,9 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 	@Autowired 
 	private ShowUniversitiesLayoutFactory showUniversitiesLayoutFactory;
 	
+	@Autowired
+	private StatisticsLayoutFactory statisticsLayoutFactory;
+	
 	private void addLayout() {
 		setMargin(true);
 		
@@ -32,7 +36,7 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 		
 		Component addUniversityTab = addUniversityLayoutFactory.createComponent(this);
 		Component showAlluniversitiesTab = showUniversitiesLayoutFactory.createComponent();
-		Component showStatistics = new Label("Stats");
+		Component showStatistics = statisticsLayoutFactory.createComponent();
 		
 		tabSheet.addTab(addUniversityTab,"Add University");
 		tabSheet.addTab(showAlluniversitiesTab,"Show all universities");
@@ -43,6 +47,7 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 
 	public void universitySaved() {
 		showUniversitiesLayoutFactory.refreshTable();
+		statisticsLayoutFactory.refresh();
 	}
 	
 	public void enter(ViewChangeEvent event) {

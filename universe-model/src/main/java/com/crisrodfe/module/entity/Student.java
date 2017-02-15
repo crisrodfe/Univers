@@ -2,8 +2,11 @@ package com.crisrodfe.module.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 //Incluiremos anotaciones en las propiedades que actuarán como filtro y mostrarán un mensaje de aviso en caso de no cumplir las condiciones
 import javax.validation.constraints.Max;
@@ -36,6 +39,20 @@ public class Student
 	@NotNull(message="Gender must be set")
 	@Column(name="gender")
 	private String gender;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="university_id")
+	@NotNull(message="University must not be null")
+	private University university;
+	
+	
+	public University getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(University university) {
+		this.university = university;
+	}
 
 	public Integer getId() {
 		return id;

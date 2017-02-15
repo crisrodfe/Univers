@@ -10,6 +10,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
@@ -18,91 +19,91 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @org.springframework.stereotype.Component
 public class AddUniversityLayoutFactory {
+
 	private class AddUniversityLayout extends VerticalLayout implements Button.ClickListener {
 
 		private TextField universityName;
 		private TextField universityCountry;
 		private TextField universityCity;
 		private Button saveButton;
-
+		private BeanFieldGroup<University> fieldGroup;
 		private University university;
-		private BeanFieldGroup<University> beanFieldGroup;
-
-		@Autowired
-		private AddUniversityService addUniversityService;
 		
+		private UniversitySavedListener universitySavedListener;
 		
-		private UniversitySavedListener savedListener;
-		public AddUniversityLayout(UniversitySavedListener savedListener) {
-			this.savedListener = savedListener;
+		public AddUniversityLayout(UniversitySavedListener universitySavedListener) {
+			this.universitySavedListener = universitySavedListener;
+			this.university = new University();
 		}
-		
+
 		public AddUniversityLayout init() {
 
-			university = new University();
-			
 			universityName = new TextField("Name");
 			universityCountry = new TextField("Country");
 			universityCity = new TextField("City");
-
-			saveButton = new Button("Save",this);
+			
+			saveButton = new Button("Save", this);
 			saveButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
-
+			
 			universityName.setNullRepresentation("");
 			universityCountry.setNullRepresentation("");
 			universityCity.setNullRepresentation("");
 
 			return this;
 		}
-
+		
 		public AddUniversityLayout bind() {
 
-			beanFieldGroup = new BeanFieldGroup<University>(University.class);
-			beanFieldGroup.bindMemberFields(this);
-			beanFieldGroup.setItemDataSource(university);
+			fieldGroup = new BeanFieldGroup<University>(University.class);
+			fieldGroup.bindMemberFields(this);
+			fieldGroup.setItemDataSource(university);
 
 			return this;
 		}
 
-		public AddUniversityLayout layout() {
+		public Component layout() {
+			
 			setWidth("100%");
 
-			GridLayout gridLayout = new GridLayout(1, 4);
-			gridLayout.setHeightUndefined();
-			gridLayout.setSpacing(true);
+			GridLayout grid = new GridLayout(2,4);
+			grid.setHeightUndefined();
+			grid.setSpacing(true);
+			
+			grid.addComponent(universityName,0,0,1,0);
+			grid.addComponent(universityCountry,0,1,1,1);
+			grid.addComponent(universityCity,0,2,1,2);
+			grid.addComponent(new HorizontalLayout(saveButton),0,3,0,3);
 
-			gridLayout.addComponent(universityName, 0, 0);
-			gridLayout.addComponent(universityCountry, 0, 1);
-			gridLayout.addComponent(universityCity, 0, 2);
-			gridLayout.addComponent(saveButton, 0, 3);
-
-			return this;
+			return grid;
 		}
 
 		public void buttonClick(ClickEvent event) {
+			
 			try {
-				beanFieldGroup.commit();
+				fieldGroup.commit();
 			} catch (CommitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				Notification.show("Error","Fields must be filled", Type.ERROR_MESSAGE);
+				Notification.show("Error",
+						"Fill the fields", Type.ERROR_MESSAGE);
 				return;
 			}
+			
 			clearFields();
 			addUniversityService.addUniversity(university);
-			savedListener.universitySaved();
-			Notification.show("Save","University saved",Type.WARNING_MESSAGE);
+			universitySavedListener.universitySaved();
+			Notification.show("SAVE", "University successfully saved!", Type.WARNING_MESSAGE);
 		}
 
 		private void clearFields() {
 			universityName.setValue(null);
 			universityCountry.setValue(null);
-			universityCity.setValue(null);		
+			universityCity.setValue(null);
 		}
-
 	}
+	
+	@Autowired
+	private AddUniversityService addUniversityService;
 
-	public Component createComponent(UniversitySavedListener savedListener) {
-		return new AddUniversityLayout(savedListener).init().bind().layout();
+	public Component createComponent(UniversitySavedListener universitySavedListener) {
+		return new AddUniversityLayout(universitySavedListener).init().bind().layout();
 	}
 }
