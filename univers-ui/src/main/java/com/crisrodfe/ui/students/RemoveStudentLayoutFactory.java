@@ -7,8 +7,8 @@ import javax.swing.ButtonModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crisrodfe.module.entity.Student;
-import com.crisrodfe.services.RemoveStudentService;
-import com.crisrodfe.services.ShowAllStudentsService;
+import com.crisrodfe.services.student.RemoveStudentService;
+import com.crisrodfe.services.student.ShowAllStudentsService;
 import com.crisrodfe.ui.commons.UniversMainUI;
 import com.crisrodfe.utils.NotificationMessages;
 import com.vaadin.data.util.BeanItemContainer;

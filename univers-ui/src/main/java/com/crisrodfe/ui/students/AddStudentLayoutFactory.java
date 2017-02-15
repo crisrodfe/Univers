@@ -3,7 +3,7 @@ package com.crisrodfe.ui.students;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crisrodfe.module.entity.Student;
-import com.crisrodfe.services.AddStudentService;
+import com.crisrodfe.services.student.AddStudentService;
 import com.crisrodfe.utils.Gender;
 import com.crisrodfe.utils.NotificationMessages;
 import com.crisrodfe.utils.StudentsString;

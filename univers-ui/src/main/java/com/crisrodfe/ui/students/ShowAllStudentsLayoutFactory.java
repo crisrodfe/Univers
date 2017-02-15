@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crisrodfe.module.entity.Student;
-import com.crisrodfe.services.ShowAllStudentsService;
+import com.crisrodfe.services.student.ShowAllStudentsService;
 import com.crisrodfe.ui.commons.UIComponentBuilder;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Component;

@@ -1,4 +1,4 @@
-package com.crisrodfe.services;
+package com.crisrodfe.services.student;
 
 import java.util.List;
 

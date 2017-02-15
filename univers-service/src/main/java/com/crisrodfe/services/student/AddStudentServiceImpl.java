@@ -1,4 +1,4 @@
-package com.crisrodfe.services;
+package com.crisrodfe.services.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,18 +1,23 @@
-package com.crisrodfe.services;
+package com.crisrodfe.services.student;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.crisrodfe.module.entity.Student;
 import com.crisrodfe.repository.student.StudentRepository;
 
 @Service
-public class RemoveStudentServiceImpl implements RemoveStudentService{
-
+public class ShowAllStudentsServiceImpl implements ShowAllStudentsService
+{
 	@Autowired
 	private StudentRepository repository;
 	
-	public void removeStudent(Student student) {
-		repository.delete(student);
+	public List<Student> getAllStudents() {
+		
+		return repository.getAllStudents();
 	}
+
 }
