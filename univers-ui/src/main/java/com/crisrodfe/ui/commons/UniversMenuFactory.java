@@ -1,11 +1,14 @@
 package com.crisrodfe.ui.commons;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.crisrodfe.navigator.UniversNavigator;
 import com.crisrodfe.utils.StringUtils;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Tree;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -40,7 +43,7 @@ public class UniversMenuFactory implements UIComponentBuilder {
 
 			mainMenu.addItem(StringUtils.MENU_UNIVERSITY.getString());
 			mainMenu.expandItem(StringUtils.MENU_UNIVERSITY.getString());
-
+			
 			mainMenu.addItem(StringUtils.MENU_ADDSTUDENT.getString());
 			mainMenu.addItem(StringUtils.MENU_REMOVESTUDENT.getString());
 			mainMenu.setChildrenAllowed(StringUtils.MENU_ADDSTUDENT.getString(), false);
@@ -52,6 +55,13 @@ public class UniversMenuFactory implements UIComponentBuilder {
 			mainMenu.setChildrenAllowed(StringUtils.MENU_OPERATIONS.getString(), false);
 			mainMenu.setParent(StringUtils.MENU_OPERATIONS.getString(), StringUtils.MENU_UNIVERSITY.getString());
 
+			mainMenu.addItem("LOGOUT");
+			mainMenu.expandItem("LOGOUT");
+			mainMenu.addItem("Logout");
+			mainMenu.setChildrenAllowed("Logout", false);
+			mainMenu.setParent("Logout","LOGOUT");
+			
+			
 			addComponent(mainMenu);
 
 			return this;
@@ -60,7 +70,10 @@ public class UniversMenuFactory implements UIComponentBuilder {
 		public void valueChange(ValueChangeEvent event) {
 			String selectedItemPath = (String) event.getProperty().getValue();
 			if (selectedItemPath == null) return;
-			
+			if( selectedItemPath.equals("Logout")) {
+				SecurityContextHolder.clearContext();
+				UI.getCurrent().getPage().setLocation("/univers-web/login");
+			}
 			String path = selectedItemPath.toLowerCase().replaceAll("\\s+","");
 			UniversNavigator.navigate(path);
 		}

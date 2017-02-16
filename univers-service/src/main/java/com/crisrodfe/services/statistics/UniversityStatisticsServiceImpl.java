@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.crisrodfe.repository.university.UniversityRepository;
 
 @Service
+@org.springframework.transaction.annotation.Transactional(readOnly=true)
 public class UniversityStatisticsServiceImpl implements UniversityStatisticsService {
 
 	@Autowired

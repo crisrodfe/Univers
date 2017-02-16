@@ -10,6 +10,7 @@ import com.crisrodfe.module.entity.Student;
 import com.crisrodfe.repository.student.StudentRepository;
 
 @Service
+@org.springframework.transaction.annotation.Transactional(readOnly=true)
 public class ShowAllStudentsServiceImpl implements ShowAllStudentsService
 {
 	@Autowired

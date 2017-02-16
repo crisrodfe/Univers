@@ -9,6 +9,7 @@ import com.crisrodfe.module.entity.University;
 import com.crisrodfe.repository.university.UniversityRepository;
 
 @Service
+@org.springframework.transaction.annotation.Transactional(readOnly=true)
 public class ShowAllUniversitiesServiceImpl implements ShowAllUniversitiesService{
 
 	@Autowired
