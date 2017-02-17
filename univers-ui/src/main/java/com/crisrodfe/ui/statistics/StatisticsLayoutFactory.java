@@ -13,26 +13,47 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * A factory for creating StatisticsLayout objects.
+ */
 @Component
 public class StatisticsLayoutFactory implements UIComponentBuilder{
 
+	/** The universities. */
 	private List<University> universities;
+	
+	/** The statistics layout. */
 	private StatisticsUniversityLayout statisticsLayout;
 	
 	
+	/** The show all universities service. */
 	@Autowired
 	private ShowAllUniversitiesService showAllUniversitiesService;
 	
+	/** The university statistics service. */
 	@Autowired
 	private UniversityStatisticsService universityStatisticsService;
 	
+	/**
+	 * The Class StatisticsUniversityLayout.
+	 */
 	private class StatisticsUniversityLayout extends VerticalLayout {
 			
+		/**
+		 * Load.
+		 *
+		 * @return the statistics university layout
+		 */
 		public StatisticsUniversityLayout load() {
 			universities = showAllUniversitiesService.getAllUniversities();		
 			return this;	
 		}
 		
+		/**
+		 * Layout.
+		 *
+		 * @return the statistics university layout
+		 */
 		public StatisticsUniversityLayout layout() {
 			setMargin(true);
 			
@@ -47,6 +68,9 @@ public class StatisticsLayoutFactory implements UIComponentBuilder{
 			
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		if(statisticsLayout == null) return;
 		statisticsLayout.removeAllComponents();
@@ -54,6 +78,9 @@ public class StatisticsLayoutFactory implements UIComponentBuilder{
 		statisticsLayout.layout();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.crisrodfe.ui.commons.UIComponentBuilder#createComponent()
+	 */
 	public com.vaadin.ui.Component createComponent() {
 		
 		statisticsLayout = new StatisticsUniversityLayout();

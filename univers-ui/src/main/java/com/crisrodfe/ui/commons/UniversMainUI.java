@@ -19,33 +19,45 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * The Class UniversMainUI.
+ */
 @SpringUI(path = UniversMainUI.NAME)
 @Title("U n i v e r s")
-@Theme("valo") // El layout lo gestiona vaadin, no usaremos css.
+@Theme("valo") // Vaadin will take care of the UI interface style. We will not use CSS
 public class UniversMainUI extends UI {
-	// Path de la vista.
+	
+	/** The Constant NAME.
+	 * View's path
+	 *  */
 	public static final String NAME = "/ui";
 
+	/** The change tab. */
 	private Panel changeTab = new Panel();
 
-	/*
-	 * Toda clase con las anotaciones de spring de componente, servicio,etc será
-	 * incluida en el contexto.
-	 */
+	/** The app context.
+	 * All the classes with Spring Annotations will be injected into this context
+	 *  */
 	@Autowired
 	private ApplicationContext appContext;
 
-	// Clases que crearán nuestros componentes de la vista.
+	/** The univers logo layout factory. */
 	@Autowired
 	private UniversLogoLayoutFactory universLogoLayoutFactory;
+	
+	/** The univers menu factory. */
 	@Autowired
 	private UniversMenuFactory universMenuFactory;
 
-	// El SpringProvider buscará todas las clases con la anotación @SpringView y
-	// las inyectará al proyecto.
+	/** The view provider. 
+	 * It will look through all the project for @SpringView Annotations and will inject them.
+	 * */
 	@Autowired
 	private SpringViewProvider viewProvider;
 
+	/* (non-Javadoc)
+	 * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
+	 */
 	@Override
 	protected void init(VaadinRequest request) {
 
@@ -93,13 +105,17 @@ public class UniversMainUI extends UI {
 		setContent(rootLayout);
 	}
 
+	/**
+	 * Inits the navigator.
+	 */
 	private void initNavigator() {
-		// Instanciamos el navigator.Indicamos cual es la ui y el panel donde se
-		// hara el cambio de vista.
+		/**
+		 * Navigator instance.
+		 * @param this, we indicate which is the UI 
+		 * @param changeTab, where in the UI the change view will take place. 
+		 */
 		UniversNavigator navigator = new UniversNavigator(this, changeTab);
 
-		// Inyectamos nuestro navegador de pestañas en el contexto de la aplicación
-		// Es la forma manual de hacer la inyección de dependencias que realiza Spring automáticamente con las anotaciones.
 		appContext.getAutowireCapableBeanFactory().autowireBean(navigator);
 		navigator.addProvider(viewProvider);
 		navigator.navigateTo(StudentLayoutFactory.NAME);

@@ -11,8 +11,9 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+
 /**
- * Diseño Builder pattern.
+ * Builder pattern design.
  * 
  * @author CrisRodFe
  *
@@ -20,20 +21,33 @@ import com.vaadin.ui.VerticalLayout;
 @org.springframework.stereotype.Component
 public class UniversMenuFactory implements UIComponentBuilder {
 	
+	/**
+	 * The Class UniverseMenu.
+	 */
 	private class UniverseMenu extends VerticalLayout implements Property.ValueChangeListener {
 		
+		/** The main menu. */
 		// Tipo de componente.Menú desplegable.
 		private Tree mainMenu;
 
-		// Instanciación del componente.
+		/**
+		 * Inits the component.
+		 *
+		 * @return the universe menu
+		 */
 		public UniverseMenu init() {
 			mainMenu = new Tree();
 			mainMenu.addValueChangeListener(this);	
 			return this;
 		}
 
-		// Configuración: tamaño, texto,jerarquía.
-		// También se añade el componente a UniverseMenu (que es en esencia un VerticalLayout)
+
+		/**
+		 * Layout configuration.
+		 * It adds de layout to the UI
+		 *
+		 * @return the universe menu
+		 */
 		public UniverseMenu layout() {
 			setWidth("100%");
 			setHeightUndefined();
@@ -67,6 +81,9 @@ public class UniversMenuFactory implements UIComponentBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see com.vaadin.data.Property.ValueChangeListener#valueChange(com.vaadin.data.Property.ValueChangeEvent)
+		 */
 		public void valueChange(ValueChangeEvent event) {
 			String selectedItemPath = (String) event.getProperty().getValue();
 			if (selectedItemPath == null) return;
@@ -80,8 +97,8 @@ public class UniversMenuFactory implements UIComponentBuilder {
 	}
 
 	/**
-	 * Devuelve el componente Tree. Al crear la nueva instancia se llama al init
-	 * y al método que lo configurará-
+	 *
+	 * @return the component
 	 */
 	public Component createComponent() {
 		return new UniverseMenu().init().layout();

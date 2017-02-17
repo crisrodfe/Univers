@@ -12,22 +12,34 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
+
+/**
+ * A factory for creating UniversityLayout objects.
+ */
 @SpringView(name=UniversityLayoutFactory.NAME, ui=UniversMainUI.class)
 public class UniversityLayoutFactory extends VerticalLayout implements View, UniversitySavedListener{
 
+	/** The Constant NAME. */
 	public static final String NAME = "operations";
 
+	/** The tab sheet. */
 	private TabSheet tabSheet;
 	
+	/** The add university layout factory. */
 	@Autowired
 	private AddUniversityLayoutFactory addUniversityLayoutFactory;
 	
+	/** The show universities layout factory. */
 	@Autowired 
 	private ShowUniversitiesLayoutFactory showUniversitiesLayoutFactory;
 	
+	/** The statistics layout factory. */
 	@Autowired
 	private StatisticsLayoutFactory statisticsLayoutFactory;
 	
+	/**
+	 * Adds the layout.
+	 */
 	private void addLayout() {
 		setMargin(true);
 		
@@ -45,11 +57,17 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 		addComponent(tabSheet);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.crisrodfe.ui.university.UniversitySavedListener#universitySaved()
+	 */
 	public void universitySaved() {
 		showUniversitiesLayoutFactory.refreshTable();
 		statisticsLayoutFactory.refresh();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
+	 */
 	public void enter(ViewChangeEvent event) {
 		removeAllComponents();
 		addLayout();

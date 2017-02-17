@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
+/**
+ * The Class SecurityConfiguration.
+ */
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
@@ -21,6 +24,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	private UserDetailsService userDetailsService;
 	
 	
+	/**
+	 * Configure global.
+	 *
+	 * @param auth the auth
+	 * @throws Exception the exception
+	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -31,6 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	/**
 	 * We define the pages wich will need an authenticated user and the ones wich will not need any kind of auth whatsoever..
+	 *
+	 * @param http the http
+	 * @throws Exception the exception
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -41,6 +53,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.antMatchers("/ui","/ui/**").fullyAuthenticated();
 	}
 	
+	/**
+	 * Creates the dao authentication provider.
+	 *
+	 * @return the dao authentication provider
+	 */
 	@Bean
 	public DaoAuthenticationProvider createDaoAuthenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -49,6 +66,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		return provider;
 	}
 
+	/**
+	 * Password encoder.
+	 *
+	 * @return the b crypt password encoder
+	 */
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

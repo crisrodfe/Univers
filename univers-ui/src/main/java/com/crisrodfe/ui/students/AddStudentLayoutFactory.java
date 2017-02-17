@@ -24,9 +24,15 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * A factory for creating AddStudentLayout objects.
+ */
 @org.springframework.stereotype.Component
 public class AddStudentLayoutFactory {
 
+	/**
+	 * The Class AddStudentMainLayout.
+	 */
 	private class AddStudentMainLayout extends VerticalLayout implements Button.ClickListener{
 
 		/**
@@ -39,26 +45,48 @@ public class AddStudentLayoutFactory {
 		 * private TextField firsNameDiferente;
 		 */
 		private TextField firstName;
+		
+		/** The last name. */
 		private TextField lastName;
+		
+		/** The age. */
 		private TextField age;
+		
+		/** The gender. */
 		private ComboBox gender;
+		
+		/** The university. */
 		private ComboBox university;
+		
+		/** The save button. */
 		private Button saveButton;
+		
+		/** The clear button. */
 		private Button clearButton;
 
-		// Para realizar el binding entre objetos Student y partes de la UI.
+		/** The field group. 
+		 * Data binding between de ui and a Student object
+		 * */
 		private BeanFieldGroup<Student> fieldGroup;
+		
+		/** The student. */
 		private Student student;
 		
+		/** The student saved listener. */
 		private StudentSavedListener studentSavedListener;
 		
+		/**
+		 * Instantiates a new adds the student main layout.
+		 *
+		 * @param studentSavedListener the student saved listener
+		 */
 		public AddStudentMainLayout(StudentSavedListener studentSavedListener)
 		{
 			this.studentSavedListener = studentSavedListener;
 		}
 
 		/**
-		 * Inicializa los componentes UI.
+		 * Inits the UI components and configures them..
 		 * 
 		 * @return AddStudentMainLayout
 		 */
@@ -94,6 +122,8 @@ public class AddStudentLayoutFactory {
 
 		/**
 		 * Configuramos al data-binding.
+		 *
+		 * @return the adds the student main layout
 		 */
 		public AddStudentMainLayout bind() {
 			fieldGroup.bindMemberFields(this);
@@ -103,8 +133,8 @@ public class AddStudentLayoutFactory {
 
 		/**
 		 * Configura el Layout y coloca los componentes en él.
-		 * 
-		 * @return
+		 *
+		 * @return the component
 		 */
 		public Component layout() {
 
@@ -127,6 +157,9 @@ public class AddStudentLayoutFactory {
 			return gridLayout;
 		}
 
+		/* (non-Javadoc)
+		 * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+		 */
 		public void buttonClick(ClickEvent event) {
 			if(event.getSource() == this.saveButton){
 				save();
@@ -136,6 +169,9 @@ public class AddStudentLayoutFactory {
 			
 		}
 
+		/**
+		 * Clear fields.
+		 */
 		private void clearFields() {
 			firstName.setValue(null);
 			lastName.setValue(null);
@@ -145,6 +181,9 @@ public class AddStudentLayoutFactory {
 			
 		}
 
+		/**
+		 * Save a new student with the data recieved from the UI.
+		 */
 		private void save() {
 			
 			if(!isSavedOperationValid()) {
@@ -167,23 +206,41 @@ public class AddStudentLayoutFactory {
 			clearFields();
 		}
 
+		/**
+		 * Checks if is saved operation valid.
+		 *
+		 * @return true, if is saved operation valid
+		 */
 		private boolean isSavedOperationValid() {
 			
 			return showAllUniversities.getAllUniversities().size() != 0;
 		}
 		
+		/**
+		 * Load.
+		 *
+		 * @return the adds the student main layout
+		 */
 		public AddStudentMainLayout load() {
 			university.addItems(showAllUniversities.getAllUniversities());			
 			return this;
 		}
 	}
 
+	/** The show all universities. */
 	@Autowired
 	private ShowAllUniversitiesService showAllUniversities;
 	
+	/** The add student service. */
 	@Autowired
 	private AddStudentService addStudentService;
 	
+	/**
+	 * Creates a new AddStudentLayout object.
+	 *
+	 * @param studentSavedListener the student saved listener
+	 * @return the component
+	 */
 	public Component createComponent(StudentSavedListener studentSavedListener) {
 		return new AddStudentMainLayout(studentSavedListener).init().load().bind().layout();
 	}

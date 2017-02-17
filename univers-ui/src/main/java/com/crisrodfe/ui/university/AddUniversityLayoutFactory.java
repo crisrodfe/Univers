@@ -17,25 +17,53 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * A factory for creating AddUniversityLayout objects.
+ */
 @org.springframework.stereotype.Component
 public class AddUniversityLayoutFactory {
 
+	/**
+	 * The Class AddUniversityLayout.
+	 */
 	private class AddUniversityLayout extends VerticalLayout implements Button.ClickListener {
 
+		/** The university name. */
 		private TextField universityName;
+		
+		/** The university country. */
 		private TextField universityCountry;
+		
+		/** The university city. */
 		private TextField universityCity;
+		
+		/** The save button. */
 		private Button saveButton;
+		
+		/** The field group. */
 		private BeanFieldGroup<University> fieldGroup;
+		
+		/** The university. */
 		private University university;
 		
+		/** The university saved listener. */
 		private UniversitySavedListener universitySavedListener;
 		
+		/**
+		 * Instantiates a new adds the university layout.
+		 *
+		 * @param universitySavedListener the university saved listener
+		 */
 		public AddUniversityLayout(UniversitySavedListener universitySavedListener) {
 			this.universitySavedListener = universitySavedListener;
 			this.university = new University();
 		}
 
+		/**
+		 * Inits the.
+		 *
+		 * @return the adds the university layout
+		 */
 		public AddUniversityLayout init() {
 
 			universityName = new TextField("Name");
@@ -52,6 +80,11 @@ public class AddUniversityLayoutFactory {
 			return this;
 		}
 		
+		/**
+		 * Bind.
+		 *
+		 * @return the adds the university layout
+		 */
 		public AddUniversityLayout bind() {
 
 			fieldGroup = new BeanFieldGroup<University>(University.class);
@@ -61,6 +94,11 @@ public class AddUniversityLayoutFactory {
 			return this;
 		}
 
+		/**
+		 * Layout.
+		 *
+		 * @return the component
+		 */
 		public Component layout() {
 			
 			setWidth("100%");
@@ -77,6 +115,9 @@ public class AddUniversityLayoutFactory {
 			return grid;
 		}
 
+		/* (non-Javadoc)
+		 * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+		 */
 		public void buttonClick(ClickEvent event) {
 			
 			try {
@@ -93,6 +134,9 @@ public class AddUniversityLayoutFactory {
 			Notification.show("SAVE", "University successfully saved!", Type.WARNING_MESSAGE);
 		}
 
+		/**
+		 * Clear fields.
+		 */
 		private void clearFields() {
 			universityName.setValue(null);
 			universityCountry.setValue(null);
@@ -100,9 +144,16 @@ public class AddUniversityLayoutFactory {
 		}
 	}
 	
+	/** The add university service. */
 	@Autowired
 	private AddUniversityService addUniversityService;
 
+	/**
+	 * Creates a new AddUniversityLayout object.
+	 *
+	 * @param universitySavedListener the university saved listener
+	 * @return the component
+	 */
 	public Component createComponent(UniversitySavedListener universitySavedListener) {
 		return new AddUniversityLayout(universitySavedListener).init().bind().layout();
 	}

@@ -24,20 +24,44 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import ch.qos.logback.core.subst.Token.Type;
 
+/**
+ * A factory for creating LoginForm objects.
+ */
 @Component
 public class LoginFormFactory {
 
+	/** The dao authentication provider. */
 	@Autowired
 	private DaoAuthenticationProvider daoAuthenticationProvider;
 	
+	/**
+	 * The Class LoginForm.
+	 */
 	private class LoginForm {
+		
+		/** The root. */
 		private VerticalLayout root;
+		
+		/** The panel. */
 		private Panel panel;
+		
+		/** The username field. */
 		private TextField usernameField;
+		
+		/** The password field. */
 		private PasswordField passwordField;
+		
+		/** The login button. */
 		private Button loginButton;
+		
+		/** The sign up button. */
 		private Button signUpButton;
 		
+		/**
+		 * Inits the UI.
+		 *
+		 * @return the login form
+		 */
 		public LoginForm init() {
 			root = new VerticalLayout();
 			root.setMargin(true);
@@ -58,6 +82,11 @@ public class LoginFormFactory {
 			return this;			
 		}
 		
+		/**
+		 * Layout.
+		 *
+		 * @return the com.vaadin.ui. component
+		 */
 		public com.vaadin.ui.Component layout() {
 			root.addComponent(panel);
 			root.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
@@ -72,6 +101,7 @@ public class LoginFormFactory {
 			loginButton.addClickListener(new ClickListener() {
 				public void buttonClick(ClickEvent event) {
 					try {
+						//We use Spring Security for authenticate the user.
 						Authentication auth = new UsernamePasswordAuthenticationToken(usernameField.getValue(), passwordField.getValue());
 						Authentication authenticated = daoAuthenticationProvider.authenticate(auth);
 						SecurityContextHolder.getContext().setAuthentication(authenticated);
@@ -95,6 +125,11 @@ public class LoginFormFactory {
 		
 	}
 	
+	/**
+	 * Creates a new LoginForm object.
+	 *
+	 * @return the component
+	 */
 	public com.vaadin.ui.Component createComponent() {
 		return new LoginForm().init().layout();
 	}

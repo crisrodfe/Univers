@@ -19,20 +19,44 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * A factory for creating SignUpForm objects.
+ */
 @org.springframework.stereotype.Component
 public class SignUpFormFactory {
 
+	/** The register user service. */
 	@Autowired
 	private RegisterUserService registerUserService;
 	
+	/**
+	 * The Class SignUpForm.
+	 */
 	private class SignUpForm {
+		
+		/** The root. */
 		private VerticalLayout root;
+		
+		/** The panel. */
 		private Panel panel;
+		
+		/** The username. */
 		private TextField username;
+		
+		/** The password field. */
 		private PasswordField passwordField;
+		
+		/** The password again field. */
 		private PasswordField passwordAgainField;
+		
+		/** The save button. */
 		private Button saveButton;
 	
+		/**
+		 * Inits the UI.
+		 *
+		 * @return the sign up form
+		 */
 		public SignUpForm init() {
 			root = new VerticalLayout();
 			root.setMargin(true);
@@ -65,6 +89,11 @@ public class SignUpFormFactory {
 			
 		}
 		
+		/**
+		 * Layout.
+		 *
+		 * @return the component
+		 */
 		public Component layout() {
 			root.addComponent(panel);
 			root.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
@@ -84,6 +113,11 @@ public class SignUpFormFactory {
 		}
 	}
 	
+	/**
+	 * Creates a new SignUpForm object.
+	 *
+	 * @return the component
+	 */
 	public Component createComponent() {
 		return new SignUpForm().init().layout();
 	}

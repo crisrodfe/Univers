@@ -8,13 +8,20 @@ import org.springframework.stereotype.Service;
 import com.crisrodfe.module.entity.University;
 import com.crisrodfe.repository.university.UniversityRepository;
 
+/**
+ * The Class ShowAllUniversitiesServiceImpl.
+ */
 @Service
 @org.springframework.transaction.annotation.Transactional(readOnly=true)
 public class ShowAllUniversitiesServiceImpl implements ShowAllUniversitiesService{
 
+	/** The university repository. */
 	@Autowired
 	private UniversityRepository universityRepository;
 	
+	/* (non-Javadoc)
+	 * @see com.crisrodfe.services.university.ShowAllUniversitiesService#getAllUniversities()
+	 */
 	public List<University> getAllUniversities() {
 		return universityRepository.getAllUniversities();
 	}

@@ -8,20 +8,24 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * Diseño Build Patterm
+ * Build Pattern design.
+ *
  * @author CrisRodFe
  */
 @org.springframework.stereotype.Component
 public class UniversLogoLayoutFactory implements UIComponentBuilder
 {
 
+	/**
+	 * The Class LogoLayout.
+	 */
 	private class LogoLayout extends VerticalLayout 
 	{	
-		//Instancia del componente.
+		
+		/** The logo. */
 		private Embedded logo;
 		
 		/**
-		 * Devuelve una instancia del objeto/componente ya configurado.
 		 * @return LogoLayout
 		 */
 		public LogoLayout init() 
@@ -31,7 +35,11 @@ public class UniversLogoLayoutFactory implements UIComponentBuilder
 			return this;
 		}
 		
-		//Añade el componente y lo sitúa.
+		/**
+		 * Layout configuration.
+		 *
+		 * @return the logo layout
+		 */
 		public LogoLayout layout()
 		{
 			logo.setSource(new ThemeResource("../../images/universe_2.png"));
@@ -44,8 +52,7 @@ public class UniversLogoLayoutFactory implements UIComponentBuilder
 	}
 	
 	/**
-	 * Devuelve el componente Tree.
-	 * Al crear la nueva instancia se llama al init y al método que lo configurará-
+	 * @return the component
 	 */
 	public Component createComponent()
 	{

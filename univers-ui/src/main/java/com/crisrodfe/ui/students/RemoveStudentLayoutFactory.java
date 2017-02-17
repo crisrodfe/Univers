@@ -24,21 +24,36 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+
+/**
+ * A factory for creating RemoveStudentLayout objects.
+ */
 @SpringView(name=RemoveStudentLayoutFactory.NAME,ui=UniversMainUI.class)
 public class RemoveStudentLayoutFactory extends VerticalLayout implements View, Button.ClickListener{
 
+	/** The Constant NAME. */
 	public static final String NAME = "removestudent";
 	
+	/** The remove student table. */
 	private Grid removeStudentTable;
+	
+	/** The remove student button. */
 	private Button removeStudentButton;
+	
+	/** The students. */
 	private List<Student> students;
 	
+	/** The all students service. */
 	@Autowired
 	private ShowAllStudentsService allStudentsService;
 	
+	/** The remove student service. */
 	@Autowired
 	private RemoveStudentService removeStudentService;
 	
+	/**
+	 * Adds the layout.
+	 */
 	private void addLayout(){
 		removeStudentButton = new Button("Remove");
 		setMargin(true);
@@ -59,10 +74,16 @@ public class RemoveStudentLayoutFactory extends VerticalLayout implements View, 
 		addComponent(removeStudentButton);
 	}
 	
+	/**
+	 * Load students.
+	 */
 	private void loadStudents() {
 		students = allStudentsService.getAllStudents();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vaadin.ui.Button.ClickListener#buttonClick(com.vaadin.ui.Button.ClickEvent)
+	 */
 	public void buttonClick(ClickEvent event) {
 		MultiSelectionModel selectionModel = (MultiSelectionModel) removeStudentTable.getSelectionModel();
 		
@@ -75,6 +96,9 @@ public class RemoveStudentLayoutFactory extends VerticalLayout implements View, 
 		removeStudentTable.getSelectionModel().reset();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener.ViewChangeEvent)
+	 */
 	public void enter(ViewChangeEvent event) {
 		if(removeStudentTable != null) return;
 		loadStudents();

@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+/**
+ * The Class SpringBootApplication.
+ */
 @Configuration
 @EnableAutoConfiguration
 @EnableWebSecurity
@@ -18,12 +21,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EntityScan({"com.crisrodfe"})
 public class SpringBootApplication extends SpringBootServletInitializer
 {
+	
+	/* (non-Javadoc)
+	 * @see org.springframework.boot.context.web.SpringBootServletInitializer#configure(org.springframework.boot.builder.SpringApplicationBuilder)
+	 */
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder app)
 	{
 		return app.sources(SpringBootApplication.class);
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootApplication.class, args);
 	}
